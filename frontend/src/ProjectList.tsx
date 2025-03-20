@@ -4,34 +4,91 @@ import { useState, useEffect } from 'react';
 function ProjectList() {
   const [projects, setProjects] = useState<Project[]>([]); // projects is what will hold your json data
   // useState is what makes it possible for us to create an empty project array and then use setProjects to feed information to projects
+  const [pageSize, setPageSize] = useState<number>(10);
+  const [pageNum, setPageNum] = useState<number>(1);
+  const [totalItems, setTotalItems] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
   useEffect(() => {
     const fetchProjects = async () => {
-      const response = await fetch('https://localhost:5000/Water/AllProjects');
+      const response = await fetch(
+        `https://localhost:5000/Water/AllProjects?pageHowMany=${pageSize}&pageNum=${pageNum}`
+      );
       const data = await response.json();
 
-      setProjects(data); // This is what will feed projects the data 
+      setProjects(data.projects); // This is what will feed projects the data
+      setTotalItems(data.totalNum);
+      setTotalPages(Math.ceil(totalItems / pageSize));
     };
 
-    fetchProjects(); // call the method you created to pull the data 
-  }, []);
+    fetchProjects(); // call the method you created to pull the data
+  }, [pageSize, pageNum, totalItems]);
+  // you should have all of your state variables in here so it knows when to fetch again
 
   return (
     <>
       <h1>Water Projects</h1>
       <br />
       {projects.map((p) => (
-        <div id="projectCard">
-          <h3>{p.projectName}</h3>
-          <ul>
-            <li>Project Type: {p.projectType}</li>
-            <li>Regional Program: {p.projectRegionalProgram}</li>
-            <li>Impact: {p.projectImpact}</li>
-            <li>Project Phase: {p.projectPhase}</li>
-            <li>Project Status: {p.projectFunctionalityStatus}</li>
-          </ul>
+        <div id="projectCard" className="card" key={p.projectId}>
+          <h3 className="card-title">{p.projectName}</h3>
+          <div className="card-body">
+            <ul className="list-unstyled">
+              <li>
+                <strong>Project Type: </strong> {p.projectType}
+              </li>
+              <li>
+                <strong>Regional Program: </strong>
+                {p.projectRegionalProgram}
+              </li>
+              <li>
+                <strong>Impact: </strong> {p.projectImpact}
+              </li>
+              <li>
+                <strong>Project Phase: </strong>
+                {p.projectPhase}
+              </li>
+              <li>
+                <strong>Project Status: </strong> {p.projectFunctionalityStatus}
+              </li>
+            </ul>
+          </div>
         </div>
       ))}
+
+      <button onClick={() => setPageNum(pageNum - 1)} disabled={pageNum === 1}>
+        Previous
+      </button>
+
+      {[...Array(totalPages)].map((_, index) => (
+        <button key={index + 1} onClick={() => setPageNum(index + 1)} disabled={pageNum === (index + 1)}>
+          {index + 1}
+        </button>
+      ))}
+      {/* builds an array of size totalPages and maps out from 0 to the max size */}
+
+      <button
+        onClick={() => setPageNum(pageNum + 1)}
+        disabled={pageNum === totalPages}
+      >
+        Next
+      </button>
+
+      <br />
+      <label>
+        Results per page:
+        <select
+          value={pageSize}
+          onChange={(p) => {setPageSize(Number(p.target.value));
+            setPageNum(1);
+          }
+          }
+        >
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+        </select>
+      </label>
     </>
   );
 }

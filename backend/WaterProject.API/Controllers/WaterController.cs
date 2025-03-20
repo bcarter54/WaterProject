@@ -13,11 +13,21 @@ namespace WaterProject.API.Controllers
         public WaterController(WaterDbContext temp) => _context = temp; // The result of this function is whatever is on the right of the lambda
 
         [HttpGet("AllProjects")]
-        public IEnumerable<Project> Get()
+        public IActionResult GetProjects(int pageHowMany = 10, int pageNum = 1)
         {
-            var something = _context.Projects.ToList();
+            var something = _context.Projects
+                .Skip((pageNum - 1) * pageHowMany)
+                .Take(pageHowMany)
+                .ToList();
+            
+            var totalNumProject = _context.Projects.Count();
 
-            return something;
+            var newObject = new
+            {
+                Projects = something,
+                TotalNum = totalNumProject
+            };
+            return Ok(newObject); 
         }
         [HttpGet("FunctionalProjects")]
         public IEnumerable<Project> GetFunctionalProjects()
