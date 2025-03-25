@@ -1,7 +1,7 @@
 import { Project } from './types/Project';
 import { useState, useEffect } from 'react';
 
-function ProjectList() {
+function ProjectList({ selectedCategories }: { selectedCategories: string[] }) {
   const [projects, setProjects] = useState<Project[]>([]); // projects is what will hold your json data
   // useState is what makes it possible for us to create an empty project array and then use setProjects to feed information to projects
   const [pageSize, setPageSize] = useState<number>(10);
@@ -11,8 +11,15 @@ function ProjectList() {
 
   useEffect(() => {
     const fetchProjects = async () => {
+      const categoryParams = selectedCategories
+        .map((cat) => `projectTypes=${encodeURIComponent(cat)}`)
+        .join('&');
+
       const response = await fetch(
-        `https://localhost:5000/Water/AllProjects?pageHowMany=${pageSize}&pageNum=${pageNum}`
+        `https://localhost:5000/Water/AllProjects?pageHowMany=${pageSize}&pageNum=${pageNum}${selectedCategories.length ? `&${categoryParams}` : ''}`,
+        {
+          credentials: 'include',
+        }
       );
       const data = await response.json();
 
@@ -22,12 +29,11 @@ function ProjectList() {
     };
 
     fetchProjects(); // call the method you created to pull the data
-  }, [pageSize, pageNum, totalItems]);
+  }, [pageSize, pageNum, totalItems, selectedCategories]);
   // you should have all of your state variables in here so it knows when to fetch again
 
   return (
     <>
-      <h1>Water Projects</h1>
       <br />
       {projects.map((p) => (
         <div id="projectCard" className="card" key={p.projectId}>
@@ -61,7 +67,11 @@ function ProjectList() {
       </button>
 
       {[...Array(totalPages)].map((_, index) => (
-        <button key={index + 1} onClick={() => setPageNum(index + 1)} disabled={pageNum === (index + 1)}>
+        <button
+          key={index + 1}
+          onClick={() => setPageNum(index + 1)}
+          disabled={pageNum === index + 1}
+        >
           {index + 1}
         </button>
       ))}
@@ -79,10 +89,10 @@ function ProjectList() {
         Results per page:
         <select
           value={pageSize}
-          onChange={(p) => {setPageSize(Number(p.target.value));
+          onChange={(p) => {
+            setPageSize(Number(p.target.value));
             setPageNum(1);
-          }
-          }
+          }}
         >
           <option value="5">5</option>
           <option value="10">10</option>
