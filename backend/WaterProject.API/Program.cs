@@ -14,7 +14,7 @@ builder.Services.AddDbContext<WaterDbContext>(options => options.UseSqlite(build
         .GetConnectionString("WaterConnection")));
 
 builder.Services.AddCors(options =>
-{
+
     options.AddPolicy("AllowFrontend",
         policy =>
         {
@@ -22,8 +22,7 @@ builder.Services.AddCors(options =>
                 .AllowCredentials()
                 .AllowAnyHeader()
                 .AllowAnyMethod();
-        });
-});
+        }));
 
 var app = builder.Build();
 

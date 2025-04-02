@@ -60,5 +60,47 @@ namespace WaterProject.API.Controllers
             return Ok(projectTypes);
         }
 
+        [HttpPost("AddProject")]
+        public IActionResult AddProject([FromBody] Project newProject)
+        {
+            _context.Projects.Add(newProject);  
+            _context.SaveChanges();
+            return Ok(newProject);
+        }
+
+        [HttpPut("UpdateProject/{projectId}")]
+        public IActionResult UpdateProject(int projectId, [FromBody] Project updatedProject)
+        {
+            var existingProject = _context.Projects.Find(projectId);
+            
+            existingProject.ProjectName = updatedProject.ProjectName;
+            existingProject.ProjectType = updatedProject.ProjectType;
+            existingProject.ProjectRegionalProgram = updatedProject.ProjectRegionalProgram;
+            existingProject.ProjectImpact = updatedProject.ProjectImpact;
+            existingProject.ProjectPhase = updatedProject.ProjectPhase;
+            existingProject.ProjectFunctionalityStatus = updatedProject.ProjectFunctionalityStatus;
+            
+            _context.Projects.Update(existingProject);
+            _context.SaveChanges();
+            
+            return Ok(updatedProject);
+        }
+
+        [HttpDelete("DeleteProject/{projectId}")]
+        public IActionResult DeleteProject(int projectId)
+        {
+            var project = _context.Projects.Find(projectId);
+
+            if (project == null)
+            {
+                return NotFound(new {message = "Not found"});
+            }
+            
+            _context.Projects.Remove(project);
+            _context.SaveChanges();
+            
+            return NoContent();
+        }
+
     }
 }

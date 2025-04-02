@@ -258,3 +258,4 @@
 /Users/bcarter/Desktop/WaterProject/backend/WaterProject.API/bin/Debug/net8.0/runtimes/win/lib/net7.0/System.Security.Cryptography.ProtectedData.dll
 /Users/bcarter/Desktop/WaterProject/backend/WaterProject.API/bin/Debug/net8.0/runtimes/win/lib/net7.0/System.Windows.Extensions.dll
 /Users/bcarter/Desktop/WaterProject/backend/WaterProject.API/obj/Debug/net8.0/WaterProject.API.sourcelink.json
+/Users/bcarter/Desktop/WaterProject/backend/WaterProject.API/bin/Debug/net8.0/WaterProject.sqlite
