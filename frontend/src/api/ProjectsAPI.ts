@@ -6,7 +6,7 @@ interface FetchProjectsResponse {
 }
 
 const API_URL =
-  'https://waterproject-backend-dscdcmagh6hhfrhk.eastus-01.azurewebsites.net/Water';
+  'https://waterproject-carter-backend-d0frhyhadmdtf6hv.eastus-01.azurewebsites.net/Water';
 
 export const fetchProjects = async (
   pageSize: number,

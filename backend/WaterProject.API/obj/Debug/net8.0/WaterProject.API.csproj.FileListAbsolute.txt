@@ -259,3 +259,8 @@
 /Users/bcarter/Desktop/WaterProject/backend/WaterProject.API/bin/Debug/net8.0/runtimes/win/lib/net7.0/System.Windows.Extensions.dll
 /Users/bcarter/Desktop/WaterProject/backend/WaterProject.API/obj/Debug/net8.0/WaterProject.API.sourcelink.json
 /Users/bcarter/Desktop/WaterProject/backend/WaterProject.API/bin/Debug/net8.0/WaterProject.sqlite
+/Users/bcarter/Desktop/WaterProject/backend/WaterProject.API/bin/Debug/net8.0/publish/web.config
+/Users/bcarter/Desktop/WaterProject/backend/WaterProject.API/bin/Debug/net8.0/publish/appsettings.Development.json
+/Users/bcarter/Desktop/WaterProject/backend/WaterProject.API/bin/Debug/net8.0/publish/appsettings.json
+/Users/bcarter/Desktop/WaterProject/backend/WaterProject.API/bin/Debug/net8.0/publish/WaterProject.API.deps.json
+/Users/bcarter/Desktop/WaterProject/backend/WaterProject.API/bin/Debug/net8.0/publish/WaterProject.API.runtimeconfig.json
